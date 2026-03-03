@@ -103,10 +103,25 @@ ggplot(staff_long, aes(x = year, y = value, group = faculty_type, color = highli
 
 # I would have reshaped the data from wide to long format. I would also choose a line graph because it shows continuity and trends over time better than the other plot used. I would also add different colors to the different lines to ensure that differentiation across trends was easy to see.
 
-# In the updated plot, I created a new variable to “highlight” the part-time faculty category in a bold color red, while putting the other faculty types in blue. I also increased the line thickness for the part-time category. This makes sure all lines are seen clearly, allowing the viewer to immediately see that while other faculty types stayed the same or decreased.
+# In the updated plot, I created a new variable to “highlight” the part-time faculty category in a bold color red, while putting the other faculty types in blue. I also increased the line thickness for the part-time category. This makes sure all lines are seen clearly, allowing the viewer to immediately see the different trends.
 
 ### Exercise 3
 
-…
+``` r
+fisheries <- read_csv("data/fisheries.csv")
+```
 
-Add exercise headings as needed.
+    ## Rows: 216 Columns: 4
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (1): country
+    ## dbl (3): capture, aquaculture, total
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+# I would replace the pie charts with faceted bar charts to make the data easier to read.
+
+# I would flip the chart as well just because there are lot of countries represented. Each piece of data should be seen clearly.
+
+# Another suggestion could be grouping the countries by continents to look at regional trends.
