@@ -125,3 +125,65 @@ fisheries <- read_csv("data/fisheries.csv")
 # I would flip the chart as well just because there are lot of countries represented. Each piece of data should be seen clearly.
 
 # Another suggestion could be grouping the countries by continents to look at regional trends.
+
+View(fisheries)
+
+``` r
+# Basic Horizontal Plot
+ggplot(fisheries, aes(x = country, y = total)) +
+  geom_col() +
+  coord_flip() + 
+  labs(
+    title = "Fishery Production",
+    x = "Country",
+    y = "Percentage of Total Tonnage"
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 2))
+```
+
+![](lab-06_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+library(tidyverse)
+library(countrycode)
+
+
+fisheries_improved <- fisheries %>%
+  mutate(
+    # Created continent groups
+    continent = countrycode(country, origin = "country.name", destination = "continent"),
+    continent = if_else(is.na(continent), "Other/Unknown", continent),
+    country = reorder(country, total) 
+  )
+```
+
+    ## Warning: There were 2 warnings in `mutate()`.
+    ## The first warning was:
+    ## ℹ In argument: `continent = countrycode(country, origin = "country.name",
+    ##   destination = "continent")`.
+    ## Caused by warning:
+    ## ! Some values were not matched unambiguously: Jersey and Guernsey
+    ## To fix unmatched values, please use the `custom_match` argument. If you think the default matching rules should be improved, please file an issue at https://github.com/vincentarelbundock/countrycode/issues
+    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+
+``` r
+# visualization 
+ggplot(fisheries_improved, aes(x = country, y = total, fill = continent)) +
+  geom_col() +
+  coord_flip() + 
+  facet_wrap(~ continent, scales = "free_y") + 
+  labs(
+    title = "Fishery Production by Country and Region",
+    subtitle = "Faceted by continent to show regional trends",
+    x = "Country",
+    y = "Percentage of Total Capture",
+    fill = "Region"
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 2))
+```
+
+![](lab-06_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+# I replaced the original 3D pie charts with faceted bar charts because bar charts allow for a more accurate linear comparison of values, whereas 3D pie charts could distort the data’s proportions. I used the coord_flip() function to create a horizontal layout, ensuring that the names of the many countries represented are legible and do not overlap. I grouped countries by continent to highlight regional production trends that were previously hidden in the original visualization.
